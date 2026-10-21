@@ -72,23 +72,31 @@ string display(const Queue& q) {
 // SOAL 1 — enqueue()                                                  35 poin
 // =============================================================================
 bool enqueue(Queue& q, int nomor) {
-    // TODO: kerjakan di sini
-    return false;
+    if (q.count == MAX) return false;
+    q.rear = (q.rear + 1) % MAX;
+    q.data[q.rear] = nomor;
+    q.count++;
+    return true;
 }
 
 // =============================================================================
 // SOAL 2 — dequeue()                                                  40 poin
 // =============================================================================
 bool dequeue(Queue& q, int& nomor) {
-    // TODO: kerjakan di sini
-    return false;
+   if (q.count == 0) return false;
+    nomor = q.data[q.front];
+    q.front = (q.front + 1) % MAX;
+    q.count--;
+    return true;
 }
 
 // =============================================================================
 // SOAL 3 — clear()                                                    25 poin
 // =============================================================================
 void clear(Queue& q) {
-    // TODO: kerjakan di sini
+    q.front = 0;
+    q.rear = -1;
+    q.count = 0;
 }
 
 // =============================================================================
