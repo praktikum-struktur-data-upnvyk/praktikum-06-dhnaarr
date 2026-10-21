@@ -72,10 +72,18 @@ string display(const Queue& q) {
 // SOAL 1 — enqueue()                                                  35 poin
 // =============================================================================
 bool enqueue(Queue& q, int nomor) {
-    if (q.count == MAX) return false;
-    q.rear = (q.rear + 1) % MAX;
-    q.data[q.rear] = nomor;
-    q.count++;
+    Node* baru = new Node;
+    baru->data = nomor;
+    baru->next = NULL;
+
+    if (q.depan == NULL) {
+        q.depan = baru;
+        q.belakang = baru;
+    } else {
+        q.belakang->next = baru;
+        q.belakang = baru;
+    }
+
     return true;
 }
 
@@ -83,10 +91,19 @@ bool enqueue(Queue& q, int nomor) {
 // SOAL 2 — dequeue()                                                  40 poin
 // =============================================================================
 bool dequeue(Queue& q, int& nomor) {
-   if (q.count == 0) return false;
-    nomor = q.data[q.front];
-    q.front = (q.front + 1) % MAX;
-    q.count--;
+       if (q.depan == NULL) {
+        return false;
+    }
+
+    Node* hapus = q.depan;
+    nomor = hapus->data;
+    q.depan = q.depan->next;
+
+    if (q.depan == NULL) {
+        q.belakang = NULL;
+    }
+
+    delete hapus;
     return true;
 }
 
@@ -94,9 +111,13 @@ bool dequeue(Queue& q, int& nomor) {
 // SOAL 3 — clear()                                                    25 poin
 // =============================================================================
 void clear(Queue& q) {
-    q.front = 0;
-    q.rear = -1;
-    q.count = 0;
+     while (q.depan != NULL) {
+        Node* hapus = q.depan;
+        q.depan = q.depan->next;
+        delete hapus;
+    }
+
+    q.belakang = NULL;
 }
 
 // =============================================================================
